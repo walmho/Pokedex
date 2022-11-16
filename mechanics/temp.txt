@@ -1,0 +1,2 @@
+This folder will contain all the code for motor mechanics and movement for the sorter and card mover,
+once we eventually make them. This txt file is temporary, just to get the file structure to show up

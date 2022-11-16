@@ -1,0 +1,1 @@
+#Take screenshots of n cards from the tcgplayer website, as well as their corresponding name, and save to file
