@@ -3,8 +3,8 @@ from bs4 import BeautifulSoup as bs
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
-from PIL import Image
-from io import BytesIO
+# from PIL import Image
+# from io import BytesIO
 
 def getPage(setName):
     """ Access tcgplayer.com card dataset from specific release
@@ -19,11 +19,8 @@ def getPage(setName):
     options = webdriver.ChromeOptions()
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
     driver = webdriver.Chrome(options=options)
-    link =f"""
-    https://www.tcgplayer.com/search/pokemon/{setName}?
-    =grid&productLineName=pokemon&setName={setName}
-    """
-    driver.get(link)
+    
+    driver.get(setName)
     driver.fullscreen_window()
     time.sleep(5)
     return driver
@@ -43,13 +40,14 @@ def findAll(driver, className):
     element = driver.find_elements(By.CLASS_NAME, className)
     return element
 
-def screenshotAll(driver, images, fileLocation):
+def screenshotAll(driver, images, fileLocation, start):
     """ take screenshots of all image elements
     
         Args:
             driver (WebElement): webdriver being used
             images (list): all image elements
             fileLocation (str): local location to save images to
+            start (int): place to start in trainingPictures folder (if pictures already exist, pick up where left off)
 
         Returns:
             saves .png image screenshots to fileLocation
@@ -57,7 +55,8 @@ def screenshotAll(driver, images, fileLocation):
             
     """
     imageKey = []
-    for i in range(len(images)):
+
+    for i in range(start, len(images)):
         driver.execute_script('arguments[0].scrollIntoView({block: "center"});', images[i])
         images[i].screenshot(f"{fileLocation}\\training_{i+1}.png")
         imageKey.append(f"training_{i+1}.png")
