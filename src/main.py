@@ -5,6 +5,8 @@ if __name__ == "__main__":
     driver = getPage("swsh11-lost-origin")
     names = findAll(driver, "search-result__title")
     nameList = nameAll(names)
+    #Screenshots every listing, even non-card items. Work-around is to find the dimensions of a normal card
+    #and trim out anything that isn't those dimensions
     imageList = findAll(driver, "lazy-image__wrapper")
     imageKey = screenshotAll(driver, imageList, "C:\\Users\\ryan_\\Documents\\Programming\\repos\Pokedex\\trainingPictures")
 
