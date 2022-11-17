@@ -19,17 +19,36 @@ def getPage(setName):
     time.sleep(5)
     return driver
 
-def findImages(driver, imageClass):
-    element = driver.find_elements(By.CLASS_NAME, imageClass)
+def findAll(driver, className):
+    element = driver.find_elements(By.CLASS_NAME, className)
     return element
 
-def screenshot(driver, images, fileLocation):
+def screenshotAll(driver, images, fileLocation):
+    imageKey = []
     for i in range(len(images)):
         driver.execute_script('arguments[0].scrollIntoView({block: "center"});', images[i])
         images[i].screenshot(f"{fileLocation}\\training_{i+1}.png")
+        imageKey.append(f"training_{i+1}.png")
 
     driver.quit()
+    return imageKey
+
+def nameAll(names):
+    nameList = []
+    for i in range(len(names)):
+        nameList.append(names[i].text)
+
+    print(nameList)
+    return nameList
+
+def loadPairs(names, imageKey):
+    answers = dict(zip(names, imageKey))
+    return answers
 
 driver = getPage("swsh11-lost-origin")
-imageList = findImages(driver, "lazy-image__wrapper")
-screenshot(driver, imageList, "C:\\Users\\ryan_\\Documents\\Programming\\repos\Pokedex\\trainingPictures")
+names = findAll(driver, "search-result__title")
+nameList = nameAll(names)
+imageList = findAll(driver, "lazy-image__wrapper")
+imageKey = screenshotAll(driver, imageList, "C:\\Users\\ryan_\\Documents\\Programming\\repos\Pokedex\\trainingPictures")
+
+trainingKey = loadPairs(nameList, imageKey)
